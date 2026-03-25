@@ -35,16 +35,42 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
  
  */
  ```
- module exp_6(out,clk,rst); 
- input clk,rst; 
- output reg [3:0]out; 
- always @ (posedge clk)
- begin 
- if(rst) 
- out<=0; 
- else 
- out <= out-1; 
- end endmodule
+module de12(
+   input  wire clk,      
+   input  wire reset_n,  
+   output reg  [3:0] q   
+);
+
+
+   always @(negedge clk or negedge reset_n) begin
+       if (!reset_n)
+           q[0] <= 1'b0;
+       else
+           q[0] <= ~q[0];
+   end
+always @(negedge q[0] or negedge reset_n) begin
+       if (!reset_n)
+           q[1] <= 1'b0;
+       else
+           q[1] <= ~q[1];
+   end
+
+
+   always @(negedge q[1] or negedge reset_n) begin
+       if (!reset_n)
+           q[2] <= 1'b0;
+       else
+           q[2] <= ~q[2];
+   end
+
+
+   always @(negedge q[2] or negedge reset_n) begin   if (!reset_n)
+           q[3] <= 1'b0;
+       else
+           q[3] <= ~q[3];
+   end
+
+endmodule
 ```
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
